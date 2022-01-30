@@ -1,8 +1,8 @@
-const Success = () => {
+const Success = ({ message }) => {
     return (
         <div>
             <div className="alert alert-success" role="alert">
-                This is a success alert—check it out!
+                {message}
             </div>
         </div>
     );
