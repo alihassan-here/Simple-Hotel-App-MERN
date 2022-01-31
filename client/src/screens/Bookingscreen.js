@@ -3,6 +3,7 @@ import axios from 'axios';
 import Loader from '../components/Loader';
 import Error from '../components/Error';
 
+import moment from 'moment';
 
 
 const Bookingscreen = ({ match }) => {
@@ -11,7 +12,13 @@ const Bookingscreen = ({ match }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState();
 
+    const roomId = match.params.roomid;
+    // const fromDate = moment(match.params.fromDate).format('DD-MM-YYYY');
+    // const toDate = moment(match.params.toDate).format('DD-MM-YYYY');
 
+    console.log(match.params.fromDate, match.params.toDate);
+    // const totalDays = moment.duration((match.params.toDate).diff(match.params.fromDate));
+    // console.log(totalDays);
 
     useEffect(() => {
         const postData = async () => {
@@ -44,8 +51,8 @@ const Bookingscreen = ({ match }) => {
                                     <hr />
                                     <b>
                                         <p>Name:  </p>
-                                        <p>From Date:  </p>
-                                        <p>To Date:  </p>
+                                        <p>From Date: {match.params.fromDate} </p>
+                                        <p>To Date: {match.params.toDate} </p>
                                         <p>Max Count: {room.maxcount}</p>
                                     </b>
                                 </div>
