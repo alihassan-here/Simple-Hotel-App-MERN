@@ -25,11 +25,11 @@ function HomeScreen() {
         console.log(endDate);
         let startD = startDate._i;
         let endD = endDate._i;
-        let diff = startD.diff(endD);
+        let diff = endD - startD;
         // const totalDays = moment.duration((startDate._i).diff(endDate._i));
-        console.log(diff);
         setFromDate(startDate._i);
         setToDate(endDate._i);
+        // console.log(fromDate);
     };
 
 
