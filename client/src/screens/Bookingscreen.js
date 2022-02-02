@@ -13,12 +13,12 @@ const Bookingscreen = ({ match }) => {
     const [error, setError] = useState();
 
     const roomId = match.params.roomid;
-    // const fromDate = moment(match.params.fromDate).format('DD-MM-YYYY');
-    // const toDate = moment(match.params.toDate).format('DD-MM-YYYY');
+    const fromDate = moment(match.params.fromDate, 'DD-MM-YYYY');
+    const toDate = moment(match.params.toDate, 'DD-MM-YYYY');
 
-    console.log(match.params.fromDate, match.params.toDate);
-    // const totalDays = moment.duration((match.params.toDate).diff(match.params.fromDate));
-    // console.log(totalDays);
+    const totalDays = moment.duration(toDate.diff(fromDate)).asDays() + 1;
+
+    const totalAmount = totalDays * room.rentperday;
 
     useEffect(() => {
         const postData = async () => {
@@ -60,9 +60,9 @@ const Bookingscreen = ({ match }) => {
                                     <b>
                                         <h1>Amount</h1>
                                         <hr />
-                                        <p>Total Days: </p>
+                                        <p>Total Days: {totalDays} </p>
                                         <p>Rent per day: {room.rentperday}</p>
-                                        <p>Total Amount: </p>
+                                        <p>Total Amount: {totalAmount}</p>
                                     </b>
                                 </div>
                                 <div style={{ float: 'right' }}>

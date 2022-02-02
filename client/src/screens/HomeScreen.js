@@ -19,19 +19,19 @@ function HomeScreen() {
     const [toDate, setToDate] = useState();
 
     const filterByDate = (date) => {
-        const startDate = moment(date[0].format('DD-MM-YYYY'));
-        const endDate = moment(date[1].format('DD-MM-YYYY'));
-        console.log(startDate);
-        console.log(endDate);
-        let startD = startDate._i;
-        let endD = endDate._i;
-        let diff = endD - startD;
+        console.log(date)
+        // const startDate = moment(date[0].format('DD-MM-YYYY'));
+        // const endDate = moment(date[1].format('DD-MM-YYYY'));
+        // console.log(startDate);
+        // console.log(endDate);
+        // let startD = startDate._i;
+        // let endD = endDate._i;
+        // let diff = endD - startD;
         // const totalDays = moment.duration((startDate._i).diff(endDate._i));
-        setFromDate(startDate._i);
-        setToDate(endDate._i);
-        // console.log(fromDate);
+        // let diff = moment.duration(startDate.diff(endDate)).asDays();
+        setFromDate(moment(date[0]).format('DD-MM-YYYY'));
+        setToDate(moment(date[1]).format('DD-MM-YYYY'));
     };
-
 
 
     useEffect(() => {
