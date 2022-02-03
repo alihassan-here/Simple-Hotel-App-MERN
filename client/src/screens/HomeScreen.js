@@ -17,20 +17,33 @@ function HomeScreen() {
     const [error, setError] = useState();
     const [fromDate, setFromDate] = useState();
     const [toDate, setToDate] = useState();
+    const [duplicateRooms, setDuplicateRooms] = useState([]);
+
 
     const filterByDate = (date) => {
-        console.log(date)
-        // const startDate = moment(date[0].format('DD-MM-YYYY'));
-        // const endDate = moment(date[1].format('DD-MM-YYYY'));
-        // console.log(startDate);
-        // console.log(endDate);
-        // let startD = startDate._i;
-        // let endD = endDate._i;
-        // let diff = endD - startD;
-        // const totalDays = moment.duration((startDate._i).diff(endDate._i));
-        // let diff = moment.duration(startDate.diff(endDate)).asDays();
         setFromDate(moment(date[0]).format('DD-MM-YYYY'));
         setToDate(moment(date[1]).format('DD-MM-YYYY'));
+
+        let tempRooms = [];
+        let availability = false;
+        for (const room of duplicateRooms) {
+            if (rooms.currentbookings.length > 0) {
+                for (const booking of rooms.currentbookings) {
+                    if (!moment(moment(date[0]).format('DD-MM-YYYY')).isBetween(booking.fromDate, booking.toDate)
+                        &&
+                        !moment(moment(date[1]).format('DD-MM-YYYY')).isBetween(booking.fromDate, booking.toDate)
+                    ) {
+                        if (moment(date[0]).format('DD-MM-YYYY') !== booking.fromDate && moment(date[0]).format('DD-MM-YYYY') !== booking.toDate && moment(date[1]).format('DD-MM-YYYY') !== booking.fromDate && moment(date[1]).format('DD-MM-YYYY') !== booking.toDate) {
+                            availability = true;
+                        }
+                    }
+                }
+            }
+            if (availability == true || rooms.currentbookings.length == 0) {
+                tempRooms.push(room);
+            }
+            setRooms(tempRooms);
+        }
     };
 
 
@@ -40,6 +53,7 @@ function HomeScreen() {
                 setLoading(true);
                 const { data } = await axios.get('/api/rooms/getallrooms');
                 setRooms(data.room);
+                setDuplicateRooms(data.room);
                 setLoading(false);
             } catch (error) {
                 setError(true)
