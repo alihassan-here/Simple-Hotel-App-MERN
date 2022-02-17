@@ -29,14 +29,15 @@ function HomeScreen() {
         for (const room of duplicateRooms) {
             if (rooms.currentbookings.length > 0) {
                 for (const booking of rooms.currentbookings) {
-                    if (!moment(moment(date[0]).format('DD-MM-YYYY')).isBetween(booking.fromDate, booking.toDate)
-                        &&
-                        !moment(moment(date[1]).format('DD-MM-YYYY')).isBetween(booking.fromDate, booking.toDate)
-                    ) {
-                        if (moment(date[0]).format('DD-MM-YYYY') !== booking.fromDate && moment(date[0]).format('DD-MM-YYYY') !== booking.toDate && moment(date[1]).format('DD-MM-YYYY') !== booking.fromDate && moment(date[1]).format('DD-MM-YYYY') !== booking.toDate) {
-                            availability = true;
+                    if (!moment(moment(date[0]).format('DD-MM-YYYY')))
+                        if (!moment(moment(date[0]).format('DD-MM-YYYY')).isBetween(booking.fromDate, booking.toDate)
+                            &&
+                            !moment(moment(date[1]).format('DD-MM-YYYY')).isBetween(booking.fromDate, booking.toDate)
+                        ) {
+                            if (moment(date[0]).format('DD-MM-YYYY') !== booking.fromDate && moment(date[0]).format('DD-MM-YYYY') !== booking.toDate && moment(date[1]).format('DD-MM-YYYY') !== booking.fromDate && moment(date[1]).format('DD-MM-YYYY') !== booking.toDate) {
+                                availability = true;
+                            }
                         }
-                    }
                 }
             }
             if (availability == true || rooms.currentbookings.length == 0) {

@@ -4,6 +4,7 @@ import Loader from '../components/Loader';
 import Error from '../components/Error';
 
 import moment from 'moment';
+import StripeCheckout from 'react-stripe-checkout';
 
 
 const Bookingscreen = ({ match }) => {
@@ -16,9 +17,6 @@ const Bookingscreen = ({ match }) => {
     const roomId = match.params.roomid;
     const fromDate = moment(match.params.fromDate, 'DD-MM-YYYY');
     const toDate = moment(match.params.toDate, 'DD-MM-YYYY');
-    console.log(roomId);
-    console.log(fromDate);
-    console.log(toDate);
 
     const totalDays = moment.duration(toDate.diff(fromDate)).asDays() + 1;
 
@@ -39,22 +37,38 @@ const Bookingscreen = ({ match }) => {
         postData();
     }, []);
 
-    const bookRoom = async () => {
+    // const bookRoom = async () => {
+    //     const bookingDetails = {
+    //         room,
+    //         userId: JSON.parse(localStorage.getItem('currentUser'))._id,
+    //         fromDate,
+    //         toDate,
+    //         totalAmount,
+    //         totalDays
+    //     }
+    //     try {
+    //         const result = await axios.post('/api/booking/bookroom', bookingDetails);
+    //     } catch (error) {
+
+    //     }
+    // }
+    const onToken = async (token) => {
+        console.log(token)
         const bookingDetails = {
             room,
             userId: JSON.parse(localStorage.getItem('currentUser'))._id,
             fromDate,
             toDate,
             totalAmount,
-            totalDays
+            totalDays,
+            token
         }
         try {
             const result = await axios.post('/api/booking/bookroom', bookingDetails);
         } catch (error) {
-
+            console.log(error)
         }
     }
-
 
 
     return (
@@ -88,7 +102,15 @@ const Bookingscreen = ({ match }) => {
                                     </b>
                                 </div>
                                 <div style={{ float: 'right' }}>
-                                    <button className='btn btn primary' onClick={bookRoom}>Pay Now</button>
+                                    {/* <button className='btn btn primary' onClick={bookRoom}>Pay Now</button> */}
+                                    <StripeCheckout
+                                        amount={totalAmount * 100}
+                                        currency='pkr'
+                                        token={onToken}
+                                        stripeKey="pk_test_51KUDthEm7PEDC4IWEZGDgpb4qhU5yH0Exwktvdbzm14Td5rCijXHXgulSehhPlKUzChoiK6Jhzq5EzdZry2l27Dv00HlGjaUXW"
+                                    >
+                                        <button className='btn btn primary'>Pay Now</button>
+                                    </StripeCheckout>
                                 </div>
                             </div>
                         </div>
