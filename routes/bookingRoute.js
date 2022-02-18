@@ -16,7 +16,7 @@ router.post('/bookroom', async (req, res) => {
             source: token.id
         });
         const payment = await stripe.charges.create({
-            amount: totalAmount,
+            amount: totalAmount * 150,
             currency: 'pkr',
             customer: customer.id,
             receipt_email: token.email,

@@ -5,6 +5,7 @@ import Error from '../components/Error';
 
 import moment from 'moment';
 import StripeCheckout from 'react-stripe-checkout';
+import Swal from 'sweetalert2';
 
 
 const Bookingscreen = ({ match }) => {
@@ -64,9 +65,27 @@ const Bookingscreen = ({ match }) => {
             token
         }
         try {
+            setLoading(true);
             const result = await axios.post('/api/booking/bookroom', bookingDetails);
+            setLoading(false);
+            Swal.fire({
+                title: 'Booking Successful',
+                text: 'Your booking has been successfully made',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                allowOutsideClick: false
+            }).then(() => {
+                window.location.href = '/bookings';
+            })
         } catch (error) {
             console.log(error)
+            setLoading(false);
+            Swal.fire({
+                title: 'Booking Failed',
+                text: 'Your booking has failed',
+                icon: 'error',
+                confirmButtonText: 'OK'
+            })
         }
     }
 
