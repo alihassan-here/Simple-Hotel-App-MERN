@@ -7,6 +7,7 @@ import Error from '../components/Error';
 import moment from 'moment';
 import 'antd/dist/antd.css';
 import { DatePicker, Space } from 'antd';
+import e from 'express';
 const { RangePicker } = DatePicker;
 
 
@@ -18,6 +19,8 @@ function HomeScreen() {
     const [fromDate, setFromDate] = useState();
     const [toDate, setToDate] = useState();
     const [duplicateRooms, setDuplicateRooms] = useState([]);
+    const [searchKey, setSearchKey] = useState('');
+    const [type, setType] = useState('all')
 
 
     const filterByDate = (date) => {
@@ -64,23 +67,68 @@ function HomeScreen() {
         }
         getData();
     }, [])
+
+    // const filterbySearch = () => {
+    //     let tempRooms = duplicateRooms.filter(room => {
+    //         return room.name.toLowerCase().includes(searchKey.toLowerCase());
+    //     })
+    //     // let tempRooms = [];
+    //     // for (const room of duplicateRooms) {
+    //     //     if (room.name.toLowerCase().includes(searchKey.toLowerCase())) {
+    //     //         tempRooms.push(room);
+    //     //     }
+    //     // }
+    //     setRooms(tempRooms);
+    // }
+
+    // const filterByType = (e) => {
+    //     let tempRooms = duplicateRooms.filter(room => {
+    //         return room.type.toLowerCase() == e.toLowerCase();
+    //         // let tempRooms = [];
+    //         // for (const room of duplicateRooms) {
+    //         //     if (room.type == type) {
+    //         //         tempRooms.push(room);
+    //         //     }
+    //         // }
+    //     })
+    //     setRooms(tempRooms);
+    // }
+
+
     return (
         <div className='container'>
-            <div className='row'>
-                <div className='col-md-3 mt-5'>
+            <div className='row bs'>
+                <div className='col-md-3'>
                     <RangePicker format='DD-MM-YYYY' onChange={filterByDate} />
                 </div>
+                {/* <div className='col-md-5'>
+                    <input type='text' className='form-control' placeholder='Search room'
+                        value={searchKey}
+                        onChange={(e) => {
+                            setSearchKey(e.target.value)
+                        }
+                        }
+                        onKeyUp={filterbySearch}
+                    />
+                </div>
+                <div className='col-md-3'>
+                    <select className='form-control' value={type} onChange={filterByType(e.target.value)}>
+                        <option value='all'>All</option>
+                        <option value='delux'>Delux</option>
+                        <option value='non-delux'>Non-Delux</option>
+                    </select>
+                </div> */}
             </div>
 
 
 
             <div className='row justify-content-center mt-5'>
                 {
-                    loading ? <Loader /> : rooms.length > 1 ? (rooms.map(room => {
+                    loading ? <Loader /> : (rooms.map(room => {
                         return <div className='col-md-9 mt-2'>
                             <Room room={room} key={room._id} fromDate={fromDate} toDate={toDate} />
                         </div>
-                    })) : (<Error />)
+                    }))
                 }
             </div>
         </div>
